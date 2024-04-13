@@ -1,0 +1,7 @@
+br\upf\projetojfprimefaces\JakartaRestConfiguration.class
+br\upf\projetojfprimefaces\controller\PessoaController.class
+br\upf\projetojfprimefaces\resources\JakartaEE10Resource.class
+br\upf\projetojfprimefaces\controller\LoginController.class
+br\upf\projetojfprimefaces\facade\AbstractFacade.class
+br\upf\projetojfprimefaces\entity\PessoaEntity.class
+br\upf\projetojfprimefaces\facade\PessoaFacade.class
