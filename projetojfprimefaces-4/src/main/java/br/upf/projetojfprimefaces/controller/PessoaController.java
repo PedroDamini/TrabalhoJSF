@@ -7,7 +7,11 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Named(value = "pessoaController")
@@ -63,11 +67,29 @@ public class PessoaController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(msg, fm);
     }
 
+    protected void initializeEmbeddableKey() {
+    }
+
+    public PessoaEntity prepareCreate() {
+        selected = new PessoaEntity();
+        selected.setDatahorareg(Calendar.getInstance().getTime());
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void cancelar() {
+        selected = null;
+        pessoa = null;
+    }
+
     /**
      * Método responsável por adicionar uma pessoa
      */
     public void adicionarPessoa() {
-        ejbFacade.createReturn(pessoa);  
+        Date agora = new Date();
+        pessoa.setDatahorareg(agora);
+
+        ejbFacade.createReturn(pessoa);
         exibirMensagem();
         //limpando os dados da pessoa...
         pessoa = new PessoaEntity();
@@ -76,8 +98,8 @@ public class PessoaController implements Serializable {
     /**
      * Método responsável por salvar uma pessoaEntity editada.
      */
-    public void editarPessoa() {        
-        ejbFacade.edit(selected);        
+    public void editarPessoa() {
+        ejbFacade.edit(selected);
         //efine o objeto selected como nulo
         selected = null;
         //exibindo mensagem
@@ -102,19 +124,4 @@ public class PessoaController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, fm);
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

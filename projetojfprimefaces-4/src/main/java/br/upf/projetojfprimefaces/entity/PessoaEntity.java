@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -17,6 +19,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa")//mapeando o nome da tabela no banco de dados
+
+@NamedQueries({
+    @NamedQuery(name = "Pessoa.buscarUser", query = "SELECT p FROM PessoaEntity p WHERE p.email = :email"),
+})
 public class PessoaEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -141,6 +147,14 @@ public class PessoaEntity implements Serializable {
         this.observacao = observacao;
     }
 
+    public Date getDatahorareg() {
+        return datahorareg;
+    }
+
+    public void setDatahorareg(Date datahorareg) {
+        this.datahorareg = datahorareg;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -162,7 +176,5 @@ public class PessoaEntity implements Serializable {
         final PessoaEntity other = (PessoaEntity) obj;
         return Objects.equals(this.id, other.id);
     }
-
-
 
 }

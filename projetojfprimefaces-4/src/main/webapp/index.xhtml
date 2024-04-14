@@ -34,6 +34,15 @@
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
+                        
+                        <p:column width="6%" sortBy="#{item.datahorareg}" filterBy="#{item.datahorareg}">
+                            <f:facet name="header">
+                                <h:outputText value="Registro"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datahorareg}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"  />
+                            </h:outputText>
+                        </p:column>
 
                         <p:column width="10%" sortBy="#{item.nome}" filterBy="#{item.nome}">
                             <f:facet name="header">
@@ -89,7 +98,8 @@
                         <f:facet name="footer">
                             <!--Botão utilizado para abrir a modal de criação -->
                             <p:commandButton id="btnCreate" value="Incluir Pessoa"  icon="pi pi-file" 
-                                             onclick="PF('dlgCreate').show()"/>  
+                                             onclick="PF('dlgCreate').show()"
+                                             actionListener="#{pessoaController.prepareCreate}"/>  
 
                             <!--Botão utilizado para abrir a modal de edição -->
                             <p:commandButton id="btnEdit" icon="pi pi-user-edit"  value="Editar Pessoa" 
@@ -142,7 +152,7 @@
                                  value="#{pessoaController.pessoa.email}" maxlength="50" >
                         <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
                     </p:inputText>
-                    
+
                     <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
                     <p:inputText id="iptSenha" size="40" label="Senha" required="true" 
                                  requiredMessage="O atributo senha é obrigatório"
@@ -170,6 +180,7 @@
                 </h:panelGrid>   
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" icon="pi pi-save"
                                  action="#{pessoaController.adicionarPessoa()}" onclick="dlgCreate.hide()"/>
+                <p:commandButton value="Cancelar" actionListener="#{pessoaController.cancelar()}" icon="fa fa-cancel" onclick="dlgCreate.hide()"/>
             </h:form>
         </p:dialog>
 
@@ -192,13 +203,19 @@
                         <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
                     </p:inputMask>
 
+                    <p:outputLabel id="oplDataHoraReg" for="ipmDataHoraReg" value="Registro"  />
+                    <p:inputMask id="ipmDataHoraReg" value="#{pessoaController.selected.datahorareg}" 
+                                 mask="99/99/9999" disabled="true" requiredMessage="O atributo Registro é obrigatório">
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </p:inputMask>
+
                     <p:outputLabel id="oplEmail" value="Email:" for="iptEmail"/>
                     <p:inputText id="iptEmail" size="40" label="Nome" required="true" 
                                  requiredMessage="O atributo email é obrigatório" validatorMessage="Campo email é inválido"
                                  value="#{pessoaController.selected.email}" maxlength="50" >
                         <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
                     </p:inputText>
-                    
+
                     <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
                     <p:inputText id="iptSenha" size="40" label="Senha" required="true" 
                                  requiredMessage="O atributo senha é obrigatório"
@@ -242,6 +259,11 @@
 
                     <p:outputLabel value="Data de Nascimento: "  />
                     <p:outputLabel value="#{pessoaController.selected.dataNascimento}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </p:outputLabel>
+
+                    <p:outputLabel value="Registro: "  />
+                    <p:outputLabel value="#{pessoaController.selected.datahorareg}" >
                         <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
                     </p:outputLabel>
 
